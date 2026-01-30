@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing Plans</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- 1. GLOBAL STYLES & RESET --- */
+    :root {
+      --bg-color: #f0f0f0;
+      --card-bg: #ffffff;
+      --accent-basic: #ff9f43; /* Orange */
+      --accent-pro: #5f27cd;   /* Deep Purple */
+      --accent-prem: #ff6b6b;  /* Red/Pink */
+      --text-color: #222;
+      --shadow-offset: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--bg-color);
+      /* Adding a subtle grid pattern for style */
+      background-image: radial-gradient(#ccc 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 40px;
+    }
+
+    /* Requirement 1: h1 element */
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      text-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+    }
+
+    /* --- 2. LAYOUT CONTAINER --- */
+    /* Requirement 2, 4, 5, 6, 7 */
+    .pricing-container {
+      width: 100%;
+      max-width: 900px;
+      
+      /* REQUIRED PROPERTIES */
+      display: flex;
+      flex-wrap: wrap;
+      
+      gap: 20px; /* Adds space between the flex items */
+      align-items: stretch; /* Ensures cards stretch to same height */
+    }
+
+    /* --- 3. CARD BASE STYLES --- */
+    /* Requirement 3, 8, 12, 13, 14, 15, 16, 17 */
+    .pricing-card {
+      background-color: var(--card-bg);
+      padding: 25px;
+      border-radius: 12px;
+      position: relative;
+      
+      /* REQUIRED PROPERTIES */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      flex: 0 0 200px; /* Fixed width base */
+      border: 2px solid black; /* Strict Requirement */
+      
+      /* Stylistic Enhancements */
+      box-shadow: var(--shadow-offset) var(--shadow-offset) 0px black;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    /* Hover Effect for style */
+    .pricing-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0px black;
+    }
+
+    /* Internal Typography Styling */
+    .pricing-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      border-bottom: 2px solid black;
+      padding-bottom: 10px;
+    }
+
+    .pricing-card p {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-top: auto; /* Pushes price to bottom if content varies */
+      background: black;
+      color: white;
+      padding: 10px;
+      text-align: center;
+      border-radius: 6px;
+    }
+
+    .features-list {
+      list-style: none;
+      margin: 15px 0 25px 0;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    .features-list li { margin-bottom: 8px; }
+    .features-list li::before { content: "✓ "; font-weight: bold; }
+
+    /* --- 4. SPECIFIC PLANS (ORDER & GROW) --- */
+
+    /* === BASIC PLAN === */
+    /* Requirement 9, 11, 18 */
+    .basic-plan {
+      order: 0; /* Appears First */
+    }
+    .basic-plan h2 { color: var(--accent-basic); }
+    .features-list.basic li::before { color: var(--accent-basic); }
+
+
+    /* === PRO PLAN === */
+    /* Requirement 11, 12, 23, 24 */
+    .pro-plan {
+      /* REQUIRED PROPERTIES */
+      order: 1; /* Appears Second */
+      flex-grow: 2; /* Takes up remaining space */
+      
+      /* Styling to make it pop */
+      background-color: #fdfdfd;
+      transform: scale(1.02); /* Slightly larger visually */
+      z-index: 10;
+      border-width: 3px; /* Slightly thicker border for emphasis */
+    }
+    
+    .pro-plan h2 { color: var(--accent-pro); }
+    .features-list.pro li::before { color: var(--accent-pro); }
+    
+    /* "Best Value" Badge */
+    .pro-plan::after {
+      content: "BEST VALUE";
+      position: absolute;
+      top: -15px;
+      right: -10px;
+      background: var(--accent-pro);
+      color: white;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      border: 2px solid black;
+      box-shadow: 3px 3px 0px black;
+      transform: rotate(5deg);
+    }
+
+
+    /* === PREMIUM PLAN === */
+    /* Requirement 10, 13, 27 */
+    .premium-plan {
+      order: 2; /* Appears Last */
+    }
+    .premium-plan h2 { color: var(--accent-prem); }
+    .features-list.prem li::before { color: var(--accent-prem); }
+
+
+    /* --- 5. MOBILE RESPONSIVENESS --- */
+    @media (max-width: 700px) {
+      .pricing-container {
+        flex-direction: column;
+      }
+      
+      /* Reset flex properties for mobile vertical stack */
+      .pricing-card {
+        flex: 1 1 auto;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      .pro-plan {
+        transform: none;
+        order: 0; /* Move Pro to top on mobile? Optional. keeping order for strict compliance */
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <h1>Pricing Plans</h1>
+
+  <div class="pricing-container">
+
+    <div class="pricing-card basic-plan">
+      <div>
+        <h2>Basic</h2>
+        <ul class="features-list basic">
+          <li>1 User Account</li>
+          <li>10GB Storage</li>
+          <li>Email Support</li>
+        </ul>
+      </div>
+      <p>$9/month</p>
+    </div>
+
+    <div class="pricing-card pro-plan">
+      <div>
+        <h2>Pro</h2>
+        <ul class="features-list pro">
+          <li>5 User Accounts</li>
+          <li>100GB Storage</li>
+          <li>Priority Support</li>
+          <li>Analytics Dashboard</li>
+        </ul>
+      </div>
+      <p>$19/month</p>
+    </div>
+
+    <div class="pricing-card premium-plan">
+      <div>
+        <h2>Premium</h2>
+        <ul class="features-list prem">
+          <li>Unlimited Users</li>
+          <li>1TB Storage</li>
+          <li>24/7 Phone Support</li>
+          <li>AI Integration</li>
+          <li>Custom Domain</li>
+        </ul>
+      </div>
+      <p>$29/month</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

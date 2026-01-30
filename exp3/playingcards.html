@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neon Glass Cards</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- 1. SETUP & BACKGROUND --- */
+    :root {
+      --bg-dark: #0f0c29;
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-bg: rgba(255, 255, 255, 0.05);
+      
+      /* Neon Colors */
+      --neon-cyan: #00f3ff;
+      --neon-pink: #ff00ff;
+      --neon-gold: #ffd700;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      /* Deep purple/blue gradient background */
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      min-height: 100vh;
+      font-family: 'Rajdhani', sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* --- 2. MAIN CONTAINER (#playing-cards) --- */
+    /* Strict Requirements: 5, 8, 9, 10, 11 */
+    #playing-cards {
+      /* Flexbox Rules */
+      display: flex;
+      justify-content: center; /* Horizontally center children */
+      flex-wrap: wrap;         /* Allow wrapping */
+      gap: 20px;               /* 20px space between */
+      
+      padding: 40px;
+      perspective: 1000px; /* Setup for 3D card tilt */
+    }
+
+    /* --- 3. CARD STYLING (.card) --- */
+    /* Strict Requirements: 3, 6, 12, 13 */
+    .card {
+      /* Dimensions (Step 3) */
+      width: 220px;
+      height: 320px;
+      
+      /* Flexbox Rules */
+      display: flex;
+      justify-content: space-between; /* Spacing children */
+      
+      /* Glassmorphism Styling */
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px); /* The "Frosted Glass" effect */
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      padding: 15px;
+      box-sizing: border-box;
+      
+      /* Animation */
+      transition: all 0.4s ease;
+      cursor: pointer;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Hover Effects: Glow & Lift */
+    .card:hover {
+      transform: translateY(-20px) rotateX(5deg);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px var(--glow-color), inset 0 0 10px var(--glow-color);
+      border-color: var(--glow-color);
+    }
+
+    /* --- 4. INTERNAL SECTIONS (.left, .middle, .right) --- */
+    
+    /* LEFT SECTION */
+    /* Strict Requirements: 7, 14 */
+    .left {
+      /* Flex Alignment */
+      align-self: flex-start; /* Aligns to top */
+      
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1;
+      text-align: center;
+    }
+
+    /* MIDDLE SECTION */
+    /* Strict Requirements: 8, 10, 15, 17, 18 */
+    .middle {
+      /* Flex Alignment */
+      align-self: center; /* Aligns to vertical center */
+      
+      /* Internal Layout */
+      display: flex;
+      flex-direction: column; /* Stack children vertically */
+      align-items: center;
+      
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .large-symbol {
+      font-size: 5rem;
+      line-height: 1;
+      text-shadow: 0 0 10px currentColor; /* Neon text glow */
+    }
+
+    /* RIGHT SECTION */
+    /* Strict Requirements: 9, 16 */
+    .right {
+      /* Flex Alignment */
+      align-self: flex-end; /* Aligns to bottom */
+      
+      font-size: 1.5rem;
+      font-weight: bold;
+      line-height: 1;
+      text-align: center;
+      
+      /* Rotating it for realism */
+      transform: rotate(180deg);
+    }
+
+    /* --- 5. COLOR VARIANTS --- */
+    .cyan-theme {
+      color: var(--neon-cyan);
+      --glow-color: var(--neon-cyan);
+    }
+    
+    .pink-theme {
+      color: var(--neon-pink);
+      --glow-color: var(--neon-pink);
+    }
+    
+    .gold-theme {
+      color: var(--neon-gold);
+      --glow-color: var(--neon-gold);
+    }
+
+  </style>
+</head>
+<body>
+
+  <main id="playing-cards">
+
+    <div class="card cyan-theme">
+      <div class="left">
+        <div>A</div>
+        <div>♠</div>
+      </div>
+      
+      <div class="middle">
+        <div class="large-symbol">♠</div>
+        <div>Spades</div>
+      </div>
+      
+      <div class="right">
+        <div>A</div>
+        <div>♠</div>
+      </div>
+    </div>
+
+    <div class="card pink-theme">
+      <div class="left">
+        <div>K</div>
+        <div>♥</div>
+      </div>
+      
+      <div class="middle">
+        <div class="large-symbol">♥</div>
+        <div>Hearts</div>
+      </div>
+      
+      <div class="right">
+        <div>K</div>
+        <div>♥</div>
+      </div>
+    </div>
+
+    <div class="card gold-theme">
+      <div class="left">
+        <div>Q</div>
+        <div>♦</div>
+      </div>
+      
+      <div class="middle">
+        <div class="large-symbol">♦</div>
+        <div>Diamonds</div>
+      </div>
+      
+      <div class="right">
+        <div>Q</div>
+        <div>♦</div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>

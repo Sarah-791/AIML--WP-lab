@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CSS Card Architecture Documentation</title>
+  <style>
+    /* --- GENERAL VARIABLES & RESET --- */
+    :root {
+      --sidebar-bg: #1e1e1e; /* VS Code Sidebar Dark */
+      --main-bg: #252526;    /* VS Code Editor Dark */
+      --text-main: #d4d4d4;  /* Light Grey Text */
+      --accent-color: #569cd6; /* Blue Accent */
+      --code-bg: #101010;
+      --code-text: #ce9178;  /* Orange/Red for strings */
+      --header-font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--main-bg);
+      color: var(--text-main);
+      line-height: 1.6;
+      display: flex; /* Flex layout for Side-by-Side */
+    }
+
+    /* --- NAVIGATION BAR (Left Side) --- */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100vh;
+      background-color: var(--sidebar-bg);
+      border-right: 2px solid #333;
+      overflow-y: auto; /* Scrollable if links are long */
+      z-index: 100;
+    }
+
+    #navbar header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+      border-bottom: 1px solid #333;
+      color: white;
+    }
+
+    /* Nav Links */
+    .nav-link {
+      display: block;
+      padding: 15px 25px;
+      text-decoration: none;
+      color: var(--text-main);
+      border-bottom: 1px solid #2d2d2d;
+      transition: background 0.2s, padding-left 0.2s;
+    }
+
+    .nav-link:hover {
+      background-color: #37373d;
+      color: white;
+      padding-left: 30px; /* Slide effect */
+      border-left: 4px solid var(--accent-color);
+    }
+
+    /* --- MAIN CONTENT (Right Side) --- */
+    #main-doc {
+      margin-left: 300px; /* Push content to right of navbar */
+      padding: 40px 60px;
+      width: 100%;
+      max-width: 1200px;
+    }
+
+    /* Sections */
+    .main-section {
+      margin-bottom: 50px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 30px;
+    }
+
+    /* Section Headers */
+    .main-section header {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: white;
+      border-left: 5px solid var(--accent-color);
+      padding-left: 15px;
+    }
+
+    /* Typography */
+    p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+
+    ul {
+      margin-left: 40px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    /* Code Snippets */
+    code {
+      font-family: 'Consolas', 'Courier New', monospace;
+      background-color: #3c3c3c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #9cdcfe;
+    }
+
+    /* Block Code Box */
+    .code-block {
+      background-color: var(--code-bg);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      font-family: 'Consolas', monospace;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      margin: 20px 0;
+      display: block;
+    }
+
+    /* --- REQUIREMENT 22: MEDIA QUERY --- */
+    /* Mobile Responsive Layout */
+    @media (max-width: 800px) {
+      body {
+        flex-direction: column;
+      }
+
+      #navbar {
+        position: static; /* Unstick from left */
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid #333;
+      }
+
+      #navbar header {
+        padding: 10px;
+      }
+
+      #main-doc {
+        margin-left: 0;
+        padding: 20px;
+      }
+      
+      .main-section header {
+        font-size: 1.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <header>CSS Card Architecture</header>
+    
+    <a class="nav-link" href="#Introduction">Introduction</a>
+    <a class="nav-link" href="#HTML_Structure">HTML Structure</a>
+    <a class="nav-link" href="#Flexbox_Layout_Model">Flexbox Layout Model</a>
+    <a class="nav-link" href="#Styling_and_Aesthetics">Styling and Aesthetics</a>
+    <a class="nav-link" href="#Transforms_and_Animation">Transforms and Animation</a>
+  </nav>
+
+  <main id="main-doc">
+
+    <section class="main-section" id="Introduction">
+      <header>Introduction</header>
+      <p>Welcome to the documentation for the <strong>CSS Playing Cards</strong> project. This guide outlines the technical decisions made when creating a realistic digital deck of cards using only HTML5 and CSS3.</p>
+      
+      <p>The goal of this architecture is to rely on standard web technologies without the need for JavaScript frameworks or external image dependencies (unless SVG is preferred). We prioritize:</p>
+      
+      <ul>
+        <li>Semantic HTML structure.</li>
+        <li>Clean and maintainable CSS.</li>
+        <li>Responsive design principles.</li>
+        <li>High-performance animations.</li>
+        <li>Accessibility and readability.</li>
+      </ul>
+
+      <p>By following this guide, you will understand how to manipulate the DOM to create complex UI elements that mimic real-world objects.</p>
+    </section>
+
+    <section class="main-section" id="HTML_Structure">
+      <header>HTML Structure</header>
+      <p>The foundation of our card system is a robust HTML skeleton. Each card is represented by a <code>div</code> container which holds three distinct sections.</p>
+      
+      <p>These sections correspond to the physical layout of a standard playing card:</p>
+      
+      <ul>
+        <li>The Top Corner (Value and Suit).</li>
+        <li>The Center (The main visual or "pips").</li>
+        <li>The Bottom Corner (Value and Suit, rotated).</li>
+      </ul>
+
+      <p>Here is an example of the basic markup required for a single card:</p>
+      
+      <code class="code-block">
+&lt;div class="card"&gt;
+  &lt;div class="card-corner top"&gt;A ♠&lt;/div&gt;
+  &lt;div class="card-inner"&gt;♠&lt;/div&gt;
+  &lt;div class="card-corner bottom"&gt;A ♠&lt;/div&gt;
+&lt;/div&gt;
+      </code>
+    </section>
+
+    <section class="main-section" id="Flexbox_Layout_Model">
+      <header>Flexbox Layout Model</header>
+      <p>To position the elements inside the card, we utilize the CSS Flexible Box Layout, commonly known as <code>Flexbox</code>. This allows us to distribute space evenly within the card container.</p>
+      
+      <p>The parent container uses <code>justify-content: space-between;</code> to push the top corner to the top and the bottom corner to the bottom automatically.</p>
+      
+      <p>Important properties used:</p>
+      <ul>
+        <li><code>display: flex;</code> - Activates the flex context.</li>
+        <li><code>flex-direction: column;</code> - Stacks elements vertically.</li>
+        <li><code>justify-content: space-between;</code> - Spacing magic.</li>
+      </ul>
+
+      <p>For the table layout (where the cards sit), we use <code>flex-wrap: wrap;</code> so cards naturally flow to the next line on smaller screens.</p>
+    </section>
+
+    <section class="main-section" id="Styling_and_Aesthetics">
+      <header>Styling and Aesthetics</header>
+      <p>A "life-like" feel is achieved through subtle styling choices. We avoid pure black borders and instead use rounded corners and drop shadows.</p>
+      
+      <p>To differentiate suits, we use a utility class called <code>.red</code>. This separates structure from style, allowing us to change the color of Hearts and Diamonds easily.</p>
+      
+      <code class="code-block">
+.card {
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.4);
+}
+
+.card.red {
+  color: #d40000;
+}
+      </code>
+      
+      <p>We also import the Google Font <code>Merriweather</code> to mimic the serif fonts traditionally found on Bicycle brand playing cards.</p>
+    </section>
+
+    <section class="main-section" id="Transforms_and_Animation">
+      <header>Transforms and Animation</header>
+      <p>The final touch of realism involves CSS Transforms. Specifically, the bottom-right corner of a playing card is always upside down.</p>
+      
+      <p>Instead of writing new HTML for the bottom corner, we simply rotate the container using <code>transform: rotate(180deg);</code>. This is efficient and ensures the symbol is exactly the same as the top one.</p>
+      
+      <p>We also add a hover effect to make the cards "lift" off the table:</p>
+
+      <code class="code-block">
+.card:hover {
+  transform: translateY(-20px) scale(1.05);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.5);
+  z-index: 100;
+}
+      </code>
+      
+      <p>The <code>z-index</code> ensures the hovered card floats <em>above</em> its neighbors, preventing clipping issues.</p>
+    </section>
+
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS Pro | The Ultimate Mechanical Keyboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0a0e27;
+            --accent: #00ff88;
+            --accent-dim: #00cc6a;
+            --text: #e4e4e7;
+            --text-dim: #a1a1aa;
+            --surface: #151a2e;
+            --surface-elevated: #1f2544;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Header */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            animation: slideDown 0.6s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        #header-img {
+            height: 40px;
+            width: 40px;
+            filter: drop-shadow(0 0 10px var(--accent));
+        }
+
+        .logo-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            letter-spacing: 3px;
+            color: var(--accent);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        #nav-bar {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 90px;
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.15) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 8vw, 7rem);
+            letter-spacing: 8px;
+            margin-bottom: 1.5rem;
+            color: var(--text);
+            line-height: 1;
+            animation: fadeInUp 0.8s ease 0.2s backwards;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+        }
+
+        .hero .tagline {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            animation: fadeInUp 0.8s ease 0.4s backwards;
+        }
+
+        .hero .description {
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            color: var(--text-dim);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+            animation: fadeInUp 0.8s ease 0.6s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: var(--accent);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease 0.8s backwards;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Features Section */
+        #features {
+            padding: 8rem 5%;
+            background: var(--surface);
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: 4px;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-dim);
+            margin-bottom: 5rem;
+            font-size: 1.1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--surface-elevated);
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: var(--text-dim);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Video Section */
+        #video-section {
+            padding: 8rem 5%;
+            background: var(--primary);
+        }
+
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+            background: #000;
+        }
+
+        #video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Specs Section */
+        #specs {
+            padding: 8rem 5%;
+            background: var(--surface);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .spec-item {
+            background: var(--surface-elevated);
+            padding: 2rem;
+            border-left: 3px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .spec-item:hover {
+            transform: translateX(10px);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .spec-label {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .spec-value {
+            font-size: 1.3rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* Pricing Section */
+        #pricing {
+            padding: 8rem 5%;
+            background: var(--primary);
+        }
+
+        .pricing-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: var(--surface-elevated);
+            padding: 3rem 2.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--accent);
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--accent);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px) scale(1.07);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .pricing-card .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card .price-note {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .pricing-card ul li {
+            padding: 0.8rem 0;
+            color: var(--text-dim);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .pricing-card ul li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .pricing-card button {
+            width: 100%;
+            padding: 1.2rem;
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card button:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .pricing-card.featured button {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .pricing-card.featured button:hover {
+            background: var(--accent-dim);
+        }
+
+        /* Form Section */
+        #form-section {
+            padding: 8rem 5%;
+            background: var(--surface);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--surface-elevated);
+            padding: 4rem 3rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        #form h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            letter-spacing: 3px;
+        }
+
+        #form p {
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        #email {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary);
+            border: 2px solid rgba(0, 255, 136, 0.2);
+            color: var(--text);
+            font-size: 1rem;
+            font-family: 'Raleway', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        #email:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        #submit {
+            width: 100%;
+            padding: 1.3rem;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        #submit:hover {
+            background: var(--accent-dim);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        footer p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries */
+        @media (max-width: 968px) {
+            #nav-bar {
+                gap: 1.5rem;
+            }
+
+            .nav-link {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #header {
+                flex-direction: column;
+                padding: 1rem 5%;
+                gap: 1rem;
+            }
+
+            #nav-bar {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .hero {
+                margin-top: 140px;
+                min-height: 80vh;
+            }
+
+            .features-grid,
+            .specs-grid,
+            .pricing-container {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .form-container {
+                padding: 3rem 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #header {
+                padding: 1rem 3%;
+            }
+
+            .hero {
+                padding: 3rem 3%;
+            }
+
+            .feature-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .form-container {
+                padding: 2.5rem 1.5rem;
+            }
+
+            #features,
+            #video-section,
+            #specs,
+            #pricing,
+            #form-section {
+                padding: 5rem 3%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="logo-container">
+            <img id="header-img" src="https://cdn-icons-png.flaticon.com/512/2888/2888732.png" alt="NEXUS Logo">
+            <div class="logo-text">NEXUS PRO</div>
+        </div>
+        <nav id="nav-bar">
+            <a href="#features" class="nav-link">Features</a>
+            <a href="#video-section" class="nav-link">Watch</a>
+            <a href="#pricing" class="nav-link">Pricing</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>NEXUS <span>PRO</span></h1>
+            <p class="tagline">Professional Mechanical Keyboard</p>
+            <p class="description">
+                Experience unparalleled typing precision with hot-swappable switches, 
+                per-key RGB lighting, and aerospace-grade aluminum construction. 
+                Designed for developers, writers, and enthusiasts who demand excellence.
+            </p>
+            <a href="#form-section" class="cta-button">Reserve Now</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <h2 class="section-title">Engineering Excellence</h2>
+        <p class="section-subtitle">Every detail meticulously crafted for peak performance</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">⚡</span>
+                <h3>Hot-Swappable Switches</h3>
+                <p>Customize your typing experience instantly with any MX-style switch. No soldering required. Swap between linear, tactile, or clicky in seconds.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎨</span>
+                <h3>Per-Key RGB Lighting</h3>
+                <p>16.8 million colors with individual key control. Program complex lighting effects, reactive typing animations, and custom profiles through our software.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">⚙️</span>
+                <h3>QMK/VIA Compatible</h3>
+                <p>Full programmability with open-source firmware. Remap any key, create macros, and customize layers for your exact workflow needs.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔊</span>
+                <h3>Premium Sound Dampening</h3>
+                <p>Multi-layer foam construction, silicone dampeners, and plate-mounted stabilizers eliminate unwanted noise for a refined acoustic profile.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔋</span>
+                <h3>Dual Connectivity</h3>
+                <p>Seamless switching between USB-C wired and Bluetooth 5.1 wireless. 3-device memory with 80-hour battery life on a single charge.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💎</span>
+                <h3>CNC Aluminum Body</h3>
+                <p>Aerospace-grade 6063 aluminum case with anodized finish. Built to last a lifetime with exceptional rigidity and premium feel.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section id="video-section">
+        <h2 class="section-title">See It In Action</h2>
+        <p class="section-subtitle">Watch how NEXUS Pro transforms your typing experience</p>
+        <div class="video-container">
+            <div class="video-wrapper">
+                <iframe 
+                    id="video" 
+                    src="https://www.youtube.com/embed/1NpQF0l8DUE" 
+                    title="Mechanical Keyboard Sound Test" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Specs -->
+    <section id="specs">
+        <h2 class="section-title">Technical Specifications</h2>
+        <p class="section-subtitle">Built without compromise</p>
+        <div class="specs-grid">
+            <div class="spec-item">
+                <div class="spec-label">Layout</div>
+                <div class="spec-value">75% Compact</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Key Count</div>
+                <div class="spec-value">84 Keys</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Switch Type</div>
+                <div class="spec-value">Hot-Swappable MX</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Connectivity</div>
+                <div class="spec-value">USB-C / BT 5.1</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Polling Rate</div>
+                <div class="spec-value">1000Hz / 1ms</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Battery</div>
+                <div class="spec-value">4000mAh Li-Po</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Case Material</div>
+                <div class="spec-value">CNC Aluminum 6063</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Weight</div>
+                <div class="spec-value">1.2kg / 2.6lbs</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Dimensions</div>
+                <div class="spec-value">325 × 135 × 40mm</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Keycaps</div>
+                <div class="spec-value">PBT Double-Shot</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Firmware</div>
+                <div class="spec-value">QMK/VIA Compatible</div>
+            </div>
+            <div class="spec-item">
+                <div class="spec-label">Warranty</div>
+                <div class="spec-value">3 Years</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing">
+        <h2 class="section-title">Choose Your Configuration</h2>
+        <p class="section-subtitle">Premium quality at every price point</p>
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <h3>Barebones Kit</h3>
+                <div class="price">$189</div>
+                <p class="price-note">Build it your way</p>
+                <ul>
+                    <li>NEXUS Pro Keyboard Body</li>
+                    <li>Hot-Swappable PCB</li>
+                    <li>Aluminum Case</li>
+                    <li>USB-C Cable</li>
+                    <li>Dampening Foam</li>
+                    <li>Stabilizers Included</li>
+                    <li>No Switches or Keycaps</li>
+                </ul>
+                <button>Select Barebones</button>
+            </div>
+            
+            <div class="pricing-card featured">
+                <div class="pricing-badge">Most Popular</div>
+                <h3>Complete Build</h3>
+                <div class="price">$279</div>
+                <p class="price-note">Ready to type</p>
+                <ul>
+                    <li>Everything in Barebones</li>
+                    <li>Your Choice of Switches</li>
+                    <li>Premium PBT Keycaps</li>
+                    <li>Pre-assembled & Tested</li>
+                    <li>Carrying Case Included</li>
+                    <li>Extended 3-Year Warranty</li>
+                    <li>Free Switch Sampler Pack</li>
+                </ul>
+                <button>Select Complete</button>
+            </div>
+            
+            <div class="pricing-card">
+                <h3>Ultimate Package</h3>
+                <div class="price">$349</div>
+                <p class="price-note">The full experience</p>
+                <ul>
+                    <li>Everything in Complete</li>
+                    <li>2 Sets of Premium Keycaps</li>
+                    <li>Premium Hard Case</li>
+                    <li>Artisan Keycap Collection</li>
+                    <li>Switch Variety Pack (70pcs)</li>
+                    <li>Keyboard Maintenance Kit</li>
+                    <li>Lifetime Warranty</li>
+                    <li>Priority Support</li>
+                </ul>
+                <button>Select Ultimate</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Form Section -->
+    <section id="form-section">
+        <div class="form-container">
+            <form id="form" action="https://www.freecodecamp.org/email-submit" method="POST">
+                <h2>Reserve Your NEXUS Pro</h2>
+                <p>Join the waitlist and be the first to experience the future of mechanical keyboards. Get exclusive early-bird pricing and free shipping.</p>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="your@email.com" 
+                        required>
+                </div>
+                <input type="submit" id="submit" value="Join Waitlist">
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 NEXUS Pro. Engineered for Excellence. | All specifications subject to change.</p>
+    </footer>
+</body>
+</html>

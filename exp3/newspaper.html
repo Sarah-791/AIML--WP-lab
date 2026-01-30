@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Digital Chronicle</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. RESET & BASICS --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Hardcoded colors to fix visibility issues */
+            background-color: #e0e0e0; 
+            color: #1a1a1a; /* Very Dark Grey (Almost Black) */
+            font-family: 'Lora', serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        /* --- 2. MAIN LAYOUT (CSS GRID) --- */
+        .newspaper-layout {
+            background-color: #f4f1ea; /* Off-white Paper Color */
+            width: 100%;
+            max-width: 1000px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #ccc;
+            
+            /* Grid Setup */
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto 1fr 1fr 1fr;
+            gap: 25px;
+
+            grid-template-areas: 
+                "title title title"
+                "feature-article feature-article cover-image"
+                "secondary-article secondary-article cover-image"
+                "small-article1 small-article2 small-article3";
+        }
+
+        /* --- 3. TYPOGRAPHY --- */
+        /* Header Area */
+        .title {
+            grid-area: title;
+            text-align: center;
+            border-bottom: 3px double #1a1a1a;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'UnifrakturMaguntia', cursive; /* Blackletter Font */
+            font-size: 4rem;
+            line-height: 1;
+            margin-bottom: 10px;
+            color: #000000; /* Pure Black */
+        }
+
+        .date-line {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            border-top: 1px solid #1a1a1a;
+            padding: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* Headlines */
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            border-bottom: 2px solid #1a1a1a;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+            line-height: 1.1;
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-style: italic;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            border-bottom: 1px solid #aaa;
+        }
+
+        p {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            text-align: justify;
+            margin-bottom: 12px;
+            color: #2c2c2c; /* Ensure text is visible */
+        }
+
+        /* --- 4. SECTIONS (GRID AREAS) --- */
+        
+        /* Feature: AI News */
+        .feature-article {
+            grid-area: feature-article;
+            padding-right: 20px;
+            border-right: 1px solid #aaa;
+        }
+
+        /* Secondary: Space News */
+        .secondary-article {
+            grid-area: secondary-article;
+            border-top: 1px solid #aaa;
+            padding-top: 20px;
+            padding-right: 20px;
+            border-right: 1px solid #aaa;
+        }
+
+        /* Image Column */
+        .cover-image {
+            grid-area: cover-image;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #aaa;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .cover-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            max-width: 100%;
+            /* VINTAGE FILTER: Makes modern tech look old */
+            filter: sepia(40%) contrast(1.2) grayscale(30%);
+        }
+        
+        figcaption {
+            margin-top: 8px;
+            font-style: italic;
+            font-size: 0.85rem;
+            text-align: center;
+            color: #444;
+        }
+
+        /* Bottom Columns */
+        .small-article1 { 
+            grid-area: small-article1; 
+            border-top: 2px solid #1a1a1a; 
+            padding-top: 15px; 
+        }
+        
+        .small-article2 { 
+            grid-area: small-article2; 
+            border-top: 2px solid #1a1a1a; 
+            padding-top: 15px; 
+            border-left: 1px solid #aaa; 
+            padding-left: 15px; 
+        }
+        
+        .small-article3 { 
+            grid-area: small-article3; 
+            border-top: 2px solid #1a1a1a; 
+            padding-top: 15px; 
+            border-left: 1px solid #aaa; 
+            padding-left: 15px; 
+        }
+
+        /* --- 5. MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .newspaper-layout {
+                display: flex;
+                flex-direction: column;
+            }
+            .feature-article, .secondary-article, .small-article2, .small-article3 {
+                border: none;
+                padding: 0;
+                margin-bottom: 20px;
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 20px;
+            }
+            .cover-image img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="newspaper-layout">
+
+        <header class="title">
+            <h1>The Digital Chronicle</h1>
+            <div class="date-line">
+                <span>Vol. MMXXVI</span>
+                <span>Friday, January 30, 2026</span> <span>Price: 0.0001 BTC</span>
+            </div>
+        </header>
+
+        <article class="feature-article">
+            <h2>Artificial Minds Surpass Human Intellect</h2>
+            <p>
+                <strong>SILICON VALLEY —</strong> A momentous shift in the cognitive sciences has occurred. The new "Large Language Models," fueled by vast computational engines, have begun to reason with a capability that rivals the greatest scholars of our age.
+            </p>
+            <p>
+                Captains of Industry debate whether this "Generative Intelligence" shall liberate the worker from drudgery or render the clerk obsolete. "It writes poetry and code with equal proficiency," remarked one startled observer.
+            </p>
+        </article>
+
+        <article class="secondary-article">
+            <h2>Starship Reaches Orbit</h2>
+            <p>
+                The great steel vessel of Mr. Musk has successfully pierced the firmament. The reusable rocket, standing taller than the Statue of Liberty, returned to terra firma, caught by mechanical arms. The dream of a colony on the Red Planet Mars draws ever closer to reality.
+            </p>
+        </article>
+
+        <figure class="cover-image">
+            <img src="https://images.unsplash.com/photo-1558494949-ef526b0042a0?q=80&w=800&auto=format&fit=crop" alt="Server Mainframe">
+            <figcaption>Fig 1. The modern loom: A Quantum Processor.</figcaption>
+        </figure>
+
+        <article class="small-article1">
+            <h3>Science & Gadgetry</h3>
+            <p><strong>Vision Pro:</strong> The new "Spatial Computing" spectacles allow gentlemen to view digital apparitions overlaid upon the physical world. A curiosity or the future of work?</p>
+        </article>
+
+        <article class="small-article2">
+            <h3>The Stock Exchange</h3>
+            <p>
+                <strong>Nvidia (NVDA):</strong> Up 2.5%. The chip-makers continue to profit from the AI gold rush.<br>
+                <strong>Bitcoin:</strong> Market volatile as digital ledger currency seeks stability.<br>
+                <strong>S&P 500:</strong> Reaches new heights.
+            </p>
+        </article>
+
+        <article class="small-article3">
+            <h3>Meteorological Report</h3>
+            <p>
+                <strong>Current:</strong> 32°C (89°F), Clear Skies.<br>
+                <strong>Forecast:</strong> High pressure brings unseasonable warmth. Humidity rising by evening. <br>
+                <strong>Wind:</strong> Westerly, 10 knots.
+            </p>
+        </article>
+
+    </main>
+
+</body>
+</html>
