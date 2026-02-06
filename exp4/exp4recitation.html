@@ -1,1 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Experiment 4 - Creative Edition</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+    <style>
+        /* Midnight Animated Gradient */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #02010a, #0d001c, #12002f, #1a0033);
+            background-size: 400% 400%;
+            animation: midnightFlow 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            color: white;
+        }
+
+        @keyframes midnightFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Dashboard */
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 400px;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            background: linear-gradient(to right, #9d50bb, #6e48aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 24px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        button:hover {
+            background: #9d50bb;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(157, 80, 187, 0.4);
+        }
+
+        /* Status Terminal */
+        #display-area {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid #9d50bb;
+        }
+
+        #text {
+            font-size: 18px;
+            margin: 0;
+            transition: all 0.5s;
+        }
+
+        .highlight {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+    </style>
+</head>
+<body onload="init()">
+
+    <div class="container">
+        <h2>🚀 JS Control Center</h2>
+
+        <div class="btn-group">
+            <button onclick="showMsg()">Show System Message</button>
+            <button onclick="changeText()">Modify Data String</button>
+            <button onclick="greet()">Calculate Solar Time</button>
+        </div>
+
+        <div id="display-area">
+            <p id="text">Awaiting Command...</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables from your original code
+        let userName = "Sarah";
+        let age = 19;
+
+        // Onload function
+        function init() {
+            console.log("System initialized for " + userName);
+            // Instead of an annoying alert, let's toast the user in the console
+            // and show a subtle starting message.
+            document.getElementById("text").innerHTML = `User: <span class="highlight">${userName}</span> (Age: ${age})`;
+        }
+
+        function showMsg() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#9d50bb', '#6e48aa', '#ffffff']
+            });
+            updateDisplay("✨ System Burst Triggered!");
+        }
+
+        function changeText() {
+            updateDisplay("🛠️ Text Changed Successfully");
+            document.getElementById("text").style.color = "#23d5ab";
+        }
+
+        function greet() {
+            let hour = new Date().getHours();
+            let greeting = "";
+            
+            if (hour < 12) {
+                greeting = "☀️ Good Morning, " + userName;
+            } else if (hour < 18) {
+                greeting = "🌤️ Good Afternoon, " + userName;
+            } else {
+                greeting = "🌙 Good Evening, " + userName;
+            }
+            
+            updateDisplay(greeting);
+        }
+
+        // Helper function to update the screen instead of using alerts
+        function updateDisplay(msg) {
+            const textElement = document.getElementById("text");
+            textElement.style.opacity = 0;
+            
+            setTimeout(() => {
+                textElement.innerText = msg;
+                textElement.style.opacity = 1;
+                textElement.style.color = "white";
+            }, 200);
+        }
+    </script>
+</body>
+</html>
