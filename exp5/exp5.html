@@ -1,1 +1,235 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Flow Pro</title>
+    <style>
+        :root {
+            --accent: #00d2ff;
+            --accent-grad: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .app-card {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: 24px;
+            width: 380px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        /* Progress Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .stats-container {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
+
+        svg { transform: rotate(-90deg); }
+        circle {
+            fill: none;
+            stroke-width: 4;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+        .bg-circle { stroke: #334155; }
+        .progress-circle { 
+            stroke: var(--accent); 
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        /* Input Area */
+        .input-box {
+            display: flex;
+            background: #334155;
+            padding: 8px;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            flex: 1;
+            outline: none;
+        }
+
+        button#add-btn {
+            background: var(--accent-grad);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: grid;
+            place-items: center;
+        }
+
+        /* List Styling */
+        ul { list-style: none; padding: 0; }
+
+        li {
+            background: #2d3e50;
+            margin-bottom: 10px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: grab;
+            transition: all 0.2s ease;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        li.completed {
+            opacity: 0.6;
+            background: #1e293b;
+        }
+
+        .check-dot {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .completed .check-dot {
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .task-text { flex: 1; font-size: 0.95rem; }
+        .completed .task-text { text-decoration: line-through; }
+
+        .del-icon {
+            color: #64748b;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .del-icon:hover { color: #f87171; }
+
+        #empty-state {
+            text-align: center;
+            color: #64748b;
+            margin-top: 2rem;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-card">
+    <div class="header">
+        <div>
+            <h2 style="margin:0">Today</h2>
+            <small id="date-label" style="color:#64748b"></small>
+        </div>
+        <div class="stats-container">
+            <svg width="60" height="60">
+                <circle class="bg-circle" cx="30" cy="30" r="16"></circle>
+                <circle id="prog-bar" class="progress-circle" cx="30" cy="30" r="16"></circle>
+            </svg>
+        </div>
+    </div>
+
+    <div class="input-box">
+        <input type="text" id="userInput" placeholder="Add a new goal...">
+        <button id="add-btn">+</button>
+    </div>
+
+    <ul id="listContainer"></ul>
+    <div id="empty-state">🎉 All caught up!</div>
+</div>
+
+<script>
+    const input = document.getElementById('userInput');
+    const list = document.getElementById('listContainer');
+    const progBar = document.getElementById('prog-bar');
+    const emptyState = document.getElementById('empty-state');
+
+    // Display Current Date
+    document.getElementById('date-label').innerText = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+    function updateUI() {
+        const items = document.querySelectorAll('li');
+        const completed = document.querySelectorAll('.completed');
+        
+        // Update Progress Circle
+        const percent = items.length > 0 ? (completed.length / items.length) * 100 : 0;
+        const offset = 100 - percent;
+        progBar.style.strokeDashoffset = offset;
+
+        // Toggle Empty State
+        emptyState.style.display = items.length === 0 ? 'block' : 'none';
+    }
+
+    function addTask() {
+        if (input.value.trim() === "") return;
+
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <div class="check-dot"></div>
+            <span class="task-text">${input.value}</span>
+            <span class="del-icon">×</span>
+        `;
+
+        // Toggle Done
+        li.querySelector('.check-dot').onclick = () => {
+            li.classList.toggle('completed');
+            updateUI();
+        };
+
+        // Delete
+        li.querySelector('.del-icon').onclick = () => {
+            li.style.transform = "scale(0.8)";
+            li.style.opacity = "0";
+            setTimeout(() => { li.remove(); updateUI(); }, 200);
+        };
+
+        list.appendChild(li);
+        input.value = "";
+        updateUI();
+    }
+
+    document.getElementById('add-btn').onclick = addTask;
+    input.onkeydown = (e) => { if(e.key === "Enter") addTask(); };
+
+    // Initial check
+    updateUI();
+</script>
+
+</body>
+</html>
