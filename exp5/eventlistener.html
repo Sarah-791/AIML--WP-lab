@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Gravity Lab</title>
+    <style>
+        body {
+            font-family: 'system-ui', sans-serif;
+            background: #111;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .controls {
+            position: absolute;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            transition: 0.2s;
+        }
+
+        #spawn-btn { background: #00ff88; color: #000; }
+        #reset-btn { background: #ff4444; }
+
+        .box {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #444;
+            border: 2px solid #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            user-select: none;
+            border-radius: 12px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .instruction {
+            color: #666;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button id="spawn-btn">Spawn Box</button>
+        <button id="reset-btn">Vacuum All</button>
+    </div>
+
+    <div class="instruction">Click a box to drop it!</div>
+
+    <script>
+        const spawnBtn = document.getElementById('spawn-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        let boxCount = 0;
+
+        // Function to create a new "Physical" element
+        function createBox() {
+            const box = document.createElement('div');
+            box.className = 'box';
+            box.innerText = ++boxCount;
+            
+            // Random position
+            const x = Math.random() * (window.innerWidth - 100) + 50;
+            const y = Math.random() * (window.innerHeight - 200) + 100;
+            
+            box.style.left = `${x}px`;
+            box.style.top = `${y}px`;
+            box.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`;
+
+            // THE GRAVITY EFFECT
+            box.onclick = () => {
+                // Determine the floor
+                const floor = window.innerHeight - 80;
+                
+                // Animate falling with a "bounce"
+                box.animate([
+                    { top: box.style.top, easing: 'ease-in' },
+                    { top: `${floor}px`, easing: 'ease-out' },
+                    { top: `${floor - 40}px`, easing: 'ease-in' },
+                    { top: `${floor}px` }
+                ], {
+                    duration: 600,
+                    fill: 'forwards'
+                });
+                
+                box.style.cursor = 'default';
+                box.style.pointerEvents = 'none'; // Disable after drop
+            };
+
+            document.body.appendChild(box);
+        }
+
+        // THE VACUUM EFFECT
+        resetBtn.onclick = () => {
+            const boxes = document.querySelectorAll('.box');
+            boxes.forEach((box, index) => {
+                box.animate([
+                    { transform: 'scale(1) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(0, -${window.innerHeight}px) scale(0) rotate(720deg)`, opacity: 0 }
+                ], {
+                    duration: 800,
+                    delay: index * 50,
+                    fill: 'forwards'
+                }).onfinish = () => box.remove();
+            });
+            boxCount = 0;
+        };
+
+        spawnBtn.onclick = createBox;
+
+        // Spawn a few to start
+        for(let i=0; i<5; i++) createBox();
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Magnetic Typewriter</title>
+    <style>
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .input-wrap {
+            position: relative;
+            z-index: 10;
+            margin-bottom: 50px;
+        }
+
+        input {
+            background: #1e293b;
+            border: 2px solid #334155;
+            color: #38bdf8;
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            outline: none;
+            width: 300px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        }
+
+        #output-stage {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            max-width: 80%;
+            min-height: 100px;
+        }
+
+        /* Each letter is its own DOM element */
+        .char {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #f8fafc;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            display: inline-block;
+            animation: magnetize 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes magnetize {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) rotate(45deg) scale(2);
+                filter: blur(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .space { width: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="input-wrap">
+        <input type="text" id="userInput" placeholder="Start typing..." autocomplete="off">
+    </div>
+
+    <div id="output-stage"></div>
+
+    <script>
+        const input = document.getElementById('userInput');
+        const stage = document.getElementById('output-stage');
+
+        input.addEventListener('input', (e) => {
+            const val = e.target.value;
+            
+            // Clear the stage
+            stage.innerHTML = '';
+
+            // Break the string into characters and create a DOM node for each
+            val.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                
+                if (char === ' ') {
+                    span.className = 'space';
+                } else {
+                    span.className = 'char';
+                    span.innerText = char;
+                    // Stagger the animation slightly for a "wave" effect
+                    span.style.animationDelay = `${index * 0.02}s`;
+                    
+                    // Give each letter a slightly different color based on position
+                    span.style.color = `hsl(${200 + (index * 10)}, 80%, 70%)`;
+                }
+                
+                stage.appendChild(span);
+            });
+        });
+    </script>
+</body>
+</html>

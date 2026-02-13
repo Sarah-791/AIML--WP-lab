@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic DOM Interaction</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --success: #22c55e;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #f1f5f9;
+            margin: 0;
+        }
+
+        /* The dynamic text container */
+        .display-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        #demo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* The Button */
+        #actionBtn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #actionBtn:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+        }
+
+        #actionBtn:active { transform: translateY(0); }
+
+        /* A "Success" state we will trigger via JavaScript */
+        .is-changed {
+            color: var(--success) !important;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="display-card">
+        <p id="demo">Ready to change?</p>
+        <button id="actionBtn">Click Me</button>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 10px;">
+            Clicks: <span id="counter">0</span>
+        </p>
+    </div>
+
+    <script>
+        // 1. Select elements using modern selectors
+        const textElement = document.getElementById("demo");
+        const btn = document.getElementById("actionBtn");
+        const counterDisplay = document.getElementById("counter");
+
+        // 2. Initialize "State" (keeping track of data)
+        let clickCount = 0;
+        let isChanged = false;
+
+        // 3. Use an Event Listener (cleaner than 'onclick' in HTML)
+        btn.addEventListener("click", () => {
+            clickCount++;
+            isChanged = !isChanged; // Toggle the boolean
+
+            // Update UI based on state
+            if (isChanged) {
+                textElement.innerText = "✨ Magic Happened!";
+                textElement.classList.add("is-changed");
+                btn.innerText = "Reset Text";
+            } else {
+                textElement.innerText = "Back to basics.";
+                textElement.classList.remove("is-changed");
+                btn.innerText = "Change Text";
+            }
+
+            // Update the counter
+            counterDisplay.innerText = clickCount;
+        });
+    </script>
+
+</body>
+</html>
+

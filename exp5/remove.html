@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Element Manager</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        /* The element to be removed */
+        #target {
+            padding: 15px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            color: #475569;
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Animation class for smooth disappearance */
+        .ghost {
+            opacity: 0;
+            transform: scale(0.9) translateY(-10px);
+            pointer-events: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+
+        .btn-remove { background: #fee2e2; color: #ef4444; }
+        .btn-remove:hover { background: #fecaca; }
+
+        .btn-restore { background: #dcfce7; color: #16a34a; }
+        .btn-restore:hover { background: #bbf7d0; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="target">🚀 Sensitive Data Node</div>
+    <button id="toggleBtn" class="btn-remove">Remove Element</button>
+</div>
+
+<script>
+    const btn = document.getElementById('toggleBtn');
+    const target = document.getElementById('target');
+    
+    // We use a "State" variable to track if the item is visible
+    let isRemoved = false;
+
+    btn.addEventListener('click', () => {
+        if (!isRemoved) {
+            // Instead of immediate .remove(), we use a class for animation
+            target.classList.add('ghost');
+            
+            // Wait for animation, then hide completely from accessibility tree
+            setTimeout(() => {
+                target.style.display = 'none';
+            }, 400);
+
+            btn.textContent = "Undo Removal";
+            btn.className = "btn-restore";
+            isRemoved = true;
+        } else {
+            // Restore logic
+            target.style.display = 'block';
+            
+            // Force a small delay so the browser registers display:block 
+            // before trying to animate the opacity back in
+            setTimeout(() => {
+                target.classList.remove('ghost');
+            }, 10);
+
+            btn.textContent = "Remove Element";
+            btn.className = "btn-remove";
+            isRemoved = false;
+        }
+    });
+</script>
+
+</body>
+</html>

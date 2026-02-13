@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Component Builder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #add-btn {
+            background: #4f46e5;
+            color: white;
+        }
+
+        #add-btn:hover { background: #4338ca; }
+
+        #container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* The Card Design */
+        .content-card {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4f46e5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            /* Entrance Animation */
+            animation: slideIn 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+
+        .remove-btn {
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+
+        .remove-btn:hover { background: #fecaca; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button id="add-btn">＋ Create New Component</button>
+    </div>
+
+    <div id="container"></div>
+
+    <script>
+        const container = document.getElementById('container');
+        const addBtn = document.getElementById('add-btn');
+        let counter = 0;
+
+        // Using Event Listeners instead of onclick attributes
+        addBtn.addEventListener('click', () => {
+            counter++;
+            
+            // 1. Create the wrapper
+            const card = document.createElement('div');
+            card.className = 'content-card';
+            
+            // 2. Create the content using a Template Literal
+            card.innerHTML = `
+                <span><strong>Item #${counter}:</strong> This is a dynamic node.</span>
+                <button class="remove-btn">Delete</button>
+            `;
+
+            // 3. Add internal logic to the specific delete button
+            card.querySelector('.remove-btn').onclick = () => {
+                card.style.opacity = '0';
+                card.style.transform = 'scale(0.8)';
+                setTimeout(() => card.remove(), 300);
+            };
+
+            // 4. Inject into the DOM
+            container.prepend(card); // Adds to the top instead of the bottom
+        });
+    </script>
+</body>
+</html>

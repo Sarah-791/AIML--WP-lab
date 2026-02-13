@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pop-It Tasks</title>
+    <style>
+        body {
+            background: #fdf4ff;
+            font-family: 'Comic Sans MS', cursive, sans-serif; /* For that playful feel */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            overflow-x: hidden;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            padding: 15px;
+            border: 3px solid #d8b4fe;
+            border-radius: 50px;
+            outline: none;
+            width: 250px;
+            font-size: 1rem;
+        }
+
+        button {
+            background: #a855f7;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active { transform: scale(0.9); }
+
+        #taskList {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 600px;
+        }
+
+        /* The "Bubble" Task */
+        .task-bubble {
+            background: #ffffff;
+            border: 4px solid #f0abfc;
+            padding: 20px;
+            border-radius: 50%;
+            min-width: 80px;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #f5d0fe;
+            user-select: none;
+            position: relative;
+            animation: inflate 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.2s;
+        }
+
+        .task-bubble:hover {
+            transform: translateY(-5px);
+            background: #faf5ff;
+        }
+
+        /* The "Pop" Animation */
+        .popped {
+            animation: pop 0.3s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes inflate {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Write a bubble..." autocomplete="off">
+        <button id="addBtn">Blow Bubble</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <script>
+        const input = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const list = document.getElementById('taskList');
+
+        // Adding a task
+        function addTask() {
+            const text = input.value.trim();
+            if (!text) return;
+
+            const li = document.createElement('li');
+            li.className = 'task-bubble';
+            li.innerText = text;
+            
+            // Randomly rotate each bubble slightly for a organic look
+            li.style.transform = `rotate(${Math.random() * 20 - 10}deg)`;
+            
+            list.appendChild(li);
+            input.value = '';
+        }
+
+        addBtn.onclick = addTask;
+        input.onkeydown = (e) => { if(e.key === 'Enter') addTask(); };
+
+        // EVENT DELEGATION:
+        // Instead of adding listeners to every bubble, we listen on the Parent (UL)
+        list.addEventListener('click', (e) => {
+            if (e.target.classList.contains('task-bubble')) {
+                const bubble = e.target;
+                
+                // Trigger the "Pop"
+                bubble.classList.add('popped');
+                
+                // Remove from DOM after animation
+                setTimeout(() => {
+                    bubble.remove();
+                }, 300);
+            }
+        });
+    </script>
+</body>
+</html>
